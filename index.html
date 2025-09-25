@@ -118,7 +118,7 @@
       </script>
     </amp-state>
 
-    <form method="GET" action="https://wa.me/6281779926129" target="_blank" on="submit:AMP.setState({})" >
+    <form method="GET" action="https://wa.me/6285659452435" target="_blank" on="submit:AMP.setState({})" >
       <label for="nama">Nama Lengkap</label>
       <input id="nama" name="nama" type="text" required
              on="input-debounced:AMP.setState({ formData: { nama: event.value, nik: formData.nik, layanan: formData.layanan, keterangan: formData.keterangan } })"
@@ -146,8 +146,14 @@
                 on="input-debounced:AMP.setState({ formData: { nama: formData.nama, nik: formData.nik, layanan: formData.layanan, keterangan: event.value } })"
                 [text]="formData.keterangan"></textarea>
 
+      <!-- Pesan WhatsApp rapi -->
       <input type="hidden" name="text"
-             [value]="'Halo Admin Kecamatan,%0A%0ANama: ' + (formData.nama || '-') + '%0ANIK: ' + (formData.nik || '-') + '%0AJenis Layanan: ' + (formData.layanan || '-') + '%0AKeterangan: ' + (formData.keterangan || '-') + '%0A%0ATerima kasih.' " />
+        [value]="'Halo Admin Kecamatan,%0A%0A' +
+                 'Nama: ' + (formData.nama || '-') + '%0A' +
+                 'NIK: ' + (formData.nik || '-') + '%0A' +
+                 'Jenis Layanan: ' + (formData.layanan || '-') + '%0A' +
+                 'Keterangan: ' + (formData.keterangan || '-') + '%0A%0A' +
+                 'Terima kasih.' " />
 
       <div class="row">
         <button type="submit" class="btn">Kirim ke WhatsApp</button>
