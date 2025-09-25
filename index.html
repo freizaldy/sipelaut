@@ -1,0 +1,90 @@
+<!doctype html>
+<html ⚡ lang="id">
+<head>
+  <meta charset="utf-8" />
+  <title>Pelayanan Kecamatan — Kirim ke WhatsApp (AMP)</title>
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  <link rel="canonical" href="self.html">
+  <style amp-custom>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:20px;background:#f6f7fb;color:#0f172a}
+    .card{max-width:760px;margin:0 auto;background:#fff;padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    h1{margin:0 0 8px;font-size:20px}
+    label{display:block;margin-top:12px;font-size:13px;color:#334155}
+    input,select,textarea{width:100%;padding:10px;border:1px solid #e6edf3;border-radius:8px;font-size:14px;box-sizing:border-box}
+    textarea{min-height:84px;resize:vertical}
+    .row{display:flex;gap:10px}
+    .btn{display:inline-block;margin-top:14px;background:#0ea5a4;color:#fff;padding:10px 14px;border-radius:9px;border:none;font-weight:600;cursor:pointer;text-decoration:none}
+    .muted{color:#64748b;font-size:13px;margin-top:8px}
+    .small{font-size:13px}
+    @media(max-width:520px){.row{flex-direction:column}}
+  </style>
+
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <!-- AMP components we use -->
+  <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+  <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+</head>
+<body>
+  <main class="card">
+    <h1>Portal Pelayanan Kecamatan Cidaun</h1>
+    <div class="muted">Isi form, lalu otomatis terbuka chat WhatsApp ke admin. Simple & cepat.</div>
+
+    <!-- amp-state optional: initialize vars -->
+    <amp-state id="formData">
+      <script type="application/json">
+        {
+          "nama": "",
+          "nik": "",
+          "layanan": "",
+          "keterangan": ""
+        }
+      </script>
+    </amp-state>
+
+    <!-- Form: method GET ke wa.me; hidden input 'text' berisi pesan -->
+    <!-- target="_blank" supaya WA terbuka di tab baru -->
+    <form method="GET" action="https://wa.me/6281779926129" target="_blank" on="submit:AMP.setState({})" >
+      <label for="nama">Nama Lengkap</label>
+      <input id="nama" name="nama" type="text" required
+             on="input-debounced:AMP.setState({ formData: { nama: event.value, nik: formData.nik, layanan: formData.layanan, keterangan: formData.keterangan } })"
+             [value]="formData.nama" />
+
+      <label for="nik">NIK / KK</label>
+      <input id="nik" name="nik" type="text" required
+             on="input-debounced:AMP.setState({ formData: { nama: formData.nama, nik: event.value, layanan: formData.layanan, keterangan: formData.keterangan } })"
+             [value]="formData.nik" />
+
+      <label for="layanan">Jenis Layanan</label>
+      <select id="layanan" name="layanan" required
+              on="change:AMP.setState({ formData: { nama: formData.nama, nik: formData.nik, layanan: event.value, keterangan: formData.keterangan } })"
+              [value]="formData.layanan">
+        <option value="">— Pilih layanan —</option>
+        <option value="Pendaftaran/Perpanjangan KTP">Pendaftaran/Perpanjangan KTP</option>
+        <option value="Permohonan Kartu Keluarga (KK)">Permohonan Kartu Keluarga (KK)</option>
+        <option value="Akta Kelahiran / Kematian">Akta Kelahiran / Kematian</option>
+        <option value="Surat Keterangan Tidak Mampu (SKTM)">Surat Keterangan Tidak Mampu (SKTM)</option>
+        <option value="Izin Keramaian">Izin Keramaian</option>
+      </select>
+
+      <label for="keterangan">Keterangan (opsional)</label>
+      <textarea id="keterangan" name="keterangan"
+                on="input-debounced:AMP.setState({ formData: { nama: formData.nama, nik: formData.nik, layanan: formData.layanan, keterangan: event.value } })"
+                [text]="formData.keterangan"></textarea>
+
+      <!-- Hidden field 'text' akan dikirim sebagai query param ke wa.me -->
+      <!-- Gunakan %0A untuk newline supaya pesan tampil rapih di WhatsApp -->
+      <input type="hidden" name="text"
+             [value]="'Halo Admin Kecamatan,%0A%0ANama: ' + (formData.nama || '-') + '%0ANIK: ' + (formData.nik || '-') + '%0AJenis Layanan: ' + (formData.layanan || '-') + '%0AKeterangan: ' + (formData.keterangan || '-') + '%0A%0ATerima kasih.' " />
+
+      <div class="row" style="align-items:center">
+        <button type="submit" class="btn">Kirim ke WhatsApp</button>
+        <a role="button" class="btn" style="background:#64748b;text-decoration:none" on="tap:AMP.setState({ formData: { nama:'', nik:'', layanan:'', keterangan:''} })">Reset</a>
+      </div>
+
+      <div class="muted small">Catatan: halaman ini AMP-only. Data tidak disimpan di server — pesan dikirim langsung ke WhatsApp admin.</div>
+    </form>
+  </main>
+
+  <!-- Optional: basic AMP analytics for submit tracking (but not required) -->
+</body>
+</html>
